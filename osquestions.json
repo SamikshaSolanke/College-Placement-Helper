@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "question": "What is the output of 2 + 2 in Python?",
+    "options": ["3", "4", "22", "Error"],
+    "answer": "B"
+  },
+  {
+    "id": 2,
+    "question": "Which data structure uses FIFO?",
+    "options": ["Stack", "Queue", "Tree", "Graph"],
+    "answer": "B"
+  },
+  {
+    "id": 3,
+    "question": "Which company developed Java?",
+    "options": ["Apple", "Microsoft", "Sun Microsystems", "IBM"],
+    "answer": "C"
+  }
+]

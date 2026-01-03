@@ -4,3 +4,4 @@ Flask-Login
 google-generativeai
 PyMySQL
 cryptography
+python-dotenv

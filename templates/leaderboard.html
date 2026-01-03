@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App - Leaderboard</title>
+    <style>
+        /* Base styles from your other pages */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: #333;
+            color: white;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        .nav-links a:hover {
+            background-color: #555;
+        }
+
+        /* Leaderboard Page Styles */
+        .leaderboard-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .leaderboard-card h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .leaderboard-card p {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .leaderboard-table th,
+        .leaderboard-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e1e1e1;
+        }
+        .leaderboard-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+        .leaderboard-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .leaderboard-table td:first-child {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #007bff;
+            width: 80px;
+            text-align: center;
+        }
+        
+        .leaderboard-name {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .score-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .score-excellent { background: #d4edda; color: #155724; }
+        .score-good { background: #fff3cd; color: #856404; }
+        .score-average { background: #ffeaa7; color: #856404; }
+        .score-poor { background: #f8d7da; color: #721c24; }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Quiz App</div>
+            <nav class="nav-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/explore">Explore</a>
+                <a href="/leaderboard">Leaderboard</a> <!-- This page -->
+                <a href="/profile">Profile</a>
+                <a href="/logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="leaderboard-card">
+            <h1>🏆 Global Leaderboard</h1>
+            <p>See how you stack up against the top quiz-takers!</p>
+            
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>User</th>
+                        <th>Avg. Score</th>
+                        <th>Quizzes Taken</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 
+                      The 'leaderboard_data' variable is sent from app.py.
+                      We loop over it to build the table.
+                    -->
+                    {% for entry in leaderboard_data %}
+                    <tr>
+                        <td>#{{ loop.index }}</td>
+                        <td class="leaderboard-name">{{ entry.display_name }}</td>
+                        <td>
+                            {% set percentage = entry.avg_score | round(1) %}
+                            {% if percentage >= 80 %}
+                                <span class="score-badge score-excellent">{{ percentage }}%</span>
+                            {% elif percentage >= 70 %}
+                                <span class="score-badge score-good">{{ percentage }}%</span>
+                            {% elif percentage >= 50 %}
+                                <span class="score-badge score-average">{{ percentage }}%</span>
+                            {% else %}
+                                <span class="score-badge score-poor">{{ percentage }}%</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ entry.test_count }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            {% if not leaderboard_data %}
+                <p style="text-align: center; padding-top: 30px; color: #666;">
+                    No one is on the leaderboard yet. Be the first!
+                </p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
+

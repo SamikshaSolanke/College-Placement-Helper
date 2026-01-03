@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App - Test Results</title>
+    <style>
+        /* Base styles from your profile.html */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: #333;
+            color: white;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        .nav-links a:hover {
+            background-color: #555;
+        }
+        .back-to-dashboard {
+            background: #007bff;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .back-to-dashboard:hover {
+            background: #0056b3;
+        }
+        
+        /* Specific Result Page Styles (based on your screenshot) */
+        .results-summary {
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .results-summary h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        /* Score Circle */
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+        .score-circle .score {
+            font-size: 2.5rem;
+        }
+        .score-circle .total {
+            font-size: 1.2rem;
+            opacity: 0.7;
+        }
+
+        /* Score Circle Colors */
+        .score-poor .score-circle {
+            background: #f8d7da;
+            color: #721c24;
+            border: 5px solid #f5c6cb;
+        }
+        .score-average .score-circle {
+            background: #fff3cd;
+            color: #856404;
+            border: 5px solid #ffeeba;
+        }
+        .score-good .score-circle {
+            background: #d4edda;
+            color: #155724;
+            border: 5px solid #c3e6cb;
+        }
+
+        .message-banner {
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 500;
+            margin-top: 20px;
+        }
+        .message-poor {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .message-good {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+            text-align: left;
+        }
+        .stat-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Review Section Styles */
+        .review-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .review-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .review-card {
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .review-question {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .review-answer {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .review-answer.incorrect {
+            background: #f8d7da; /* Red background */
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .review-answer.correct {
+            background: #d4edda; /* Green background */
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        /* --- NEW: Explanation Button Styles --- */
+        .explain-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        .explain-btn:hover {
+            background: #0056b3;
+        }
+        .explain-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        .explanation-box {
+            background: #f8f9fa;
+            border: 1px solid #e1e1e1;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .explanation-box p {
+            margin: 0;
+        }
+        /* Simple spinner for loading */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f0f4f8;
+            border-top: 3px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Quiz App</div>
+            <nav class="nav-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="/dashboard" class="back-to-dashboard">← Back to Dashboard</a>
+
+        <!-- 1. Results Summary Card -->
+        {% set percentage = (score / total * 100) | round(0) %}
+        {% if percentage >= 70 %}
+            {% set score_class = 'score-good' %}
+            {% set message_class = 'message-good' %}
+            {% set message = 'Great job! You really know your stuff.' %}
+        {% elif percentage >= 50 %}
+            {% set score_class = 'score-average' %}
+            {% set message_class = 'message-poor' %} <!-- Using poor for yellow/red as per screenshot -->
+            {% set message = 'Not bad, but there is room to improve!' %}
+        {% else %}
+            {% set score_class = 'score-poor' %}
+            {% set message_class = 'message-poor' %}
+            {% set message = "Don't give up! Practice makes perfect!" %}
+        {% endif %}
+
+        <div class="results-summary {{ score_class }}">
+            <h1>Test Results</h1>
+            
+            <div class="score-circle">
+                <div class="score">{{ score }}</div>
+                <div class="total">/ {{ total }}</div>
+            </div>
+
+            <div class="message-banner {{ message_class }}">
+                <span>💡 {{ message }}</span>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Your Score</div>
+                    <div class="stat-value">{{ score }}/{{ total }}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Percentage</div>
+                    <div class="stat-value">{{ percentage }}%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Subject</div>
+                    <div class="stat-value">{{ subject }}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Level</div>
+                    <div class="stat-value">{{ level }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Review Mistakes Section -->
+        <div class="review-section">
+            <h2>📝 Review Your Mistakes</h2>
+
+            {% for question in questions %}
+                {% set letter = question.correct_answer_letter %}
+                {% set correct_answer_text = question['option_' + letter.lower()] %}
+                {% set user_answer_text = user_answers[question.question] %}
+                
+                <div class="review-card">
+                    <p class="review-question">{{ loop.index }}. {{ question.question }}</p>
+                    
+                    {% if user_answer_text == correct_answer_text %}
+                        <!-- Correct Answer -->
+                        <div class="review-answer correct">
+                            <strong>Your Answer: </strong> {{ user_answer_text }}
+                        </div>
+                    {% else %}
+                        <!-- Incorrect Answer -->
+                        <div class="review-answer incorrect">
+                            <strong>Your Answer: </strong> {{ user_answer_text }}
+                        </div>
+                        <div class="review-answer correct">
+                            <strong>Correct Answer: </strong> {{ correct_answer_text }}
+                        </div>
+                        
+                        <!-- THE NEW BUTTON -->
+                        <button class="explain-btn" 
+                                data-question="{{ question.question }}"
+                                data-user-answer="{{ user_answer_text }}"
+                                data-correct-answer="{{ correct_answer_text }}">
+                            Why was I wrong?
+                        </button>
+                        <div class="explanation-box" style="display: none;"></div> <!-- Explanations go here -->
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- NEW: JavaScript for the Explanation Button -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.explain-btn').forEach(button => {
+            button.addEventListener('click', async (e) => {
+                const btn = e.target;
+                const explanationBox = btn.nextElementSibling;
+
+                // Prevent double clicks
+                btn.disabled = true;
+                btn.textContent = 'Loading...';
+                explanationBox.innerHTML = '<div class="spinner"></div>';
+                explanationBox.style.display = 'block';
+
+                // Get data from button
+                const postData = {
+                    question: btn.dataset.question,
+                    user_answer: btn.dataset.userAnswer,
+                    correct_answer: btn.dataset.correctAnswer
+                };
+
+                try {
+                    const response = await fetch('/api/explain', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(postData)
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Failed to get explanation.');
+                    }
+
+                    // Display explanation and hide button
+                    // We replace \n (newline) with <br> for HTML
+                    explanationBox.innerHTML = `<p>${data.explanation.replace(/\\n/g, '<br>')}</p>`;
+                    btn.style.display = 'none'; // Hide button after success
+
+                } catch (error) {
+                    console.error('Error fetching explanation:', error);
+                    explanationBox.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+                    btn.textContent = 'Try Again';
+                    btn.disabled = false;
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

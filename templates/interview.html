@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App - Mock Interview</title>
+    <style>
+        /* Base styles from your other pages */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: #333;
+            color: white;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        .nav-links a:hover {
+            background-color: #555;
+        }
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .back-btn:hover {
+            background: #545b62;
+        }
+
+        /* Interview Page Styles */
+        .interview-header {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .interview-header h1 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .interview-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .interview-card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .question-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .question-container h3 {
+            color: #007bff;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+        .question-text {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 500;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+        
+        /* NEW: Speak Button */
+        .speak-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+        .speak-btn:hover {
+            opacity: 1;
+        }
+        .speak-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #007bff;
+        }
+
+        /* NEW: Voice Controls */
+        .voice-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .record-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .record-btn.recording {
+            background-color: #007bff;
+            animation: pulse 1.5s infinite;
+        }
+        .record-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+        .recording-status {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #dc3545;
+        }
+        .recording-status.recording {
+            color: #007bff;
+        }
+
+        .answer-container textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            resize: vertical;
+        }
+        
+        .feedback-container {
+            display: none; /* Hidden by default */
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .feedback-container h3 {
+            margin-bottom: 15px;
+        }
+        .feedback-container.score-1, .feedback-container.score-2 { background: #f8d7da; border-left: 5px solid #721c24; }
+        .feedback-container.score-3 { background: #fff3cd; border-left: 5px solid #856404; }
+        .feedback-container.score-4, .feedback-container.score-5 { background: #d4edda; border-left: 5px solid #155724; }
+        
+        .feedback-score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .feedback-text {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn {
+            background: #28a745;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background: #218838;
+        }
+        .btn[disabled] {
+            background: #aaa;
+            cursor: not-allowed;
+        }
+        
+        #next-q-btn {
+            background: #007bff;
+        }
+        #next-q-btn:hover {
+            background: #0056b3;
+        }
+
+        /* Simple spinner for loading */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f0f4f8;
+            border-top: 4px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Quiz App</div>
+            <nav class="nav-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/explore">Explore</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="/dashboard" class="back-btn">← Back to Dashboard</a>
+
+        <div class="interview-header">
+            <h1>Mock Interview</h1>
+            <p>{{ subject }} - {{ level }} Level</p>
+        </div>
+
+        <div class="interview-card">
+            <!-- Loading Spinner (shown by default) -->
+            <div id="loader" class="spinner"></div>
+
+            <!-- Main Interview Content (hidden by default) -->
+            <div id="interview-content" class="hidden">
+                <div class="question-container">
+                    <h3>AI Interview Question:</h3>
+                    <p class="question-text" id="question-text"></p>
+                    <!-- NEW: Speak Button -->
+                    <button id="speak-question-btn" class="speak-btn" title="Read question aloud">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                    </button>
+                </div>
+                
+                <div class="answer-container">
+                    <!-- NEW: Voice Controls -->
+                    <div class="voice-controls">
+                        <button id="record-btn" class="record-btn" title="Record Answer">
+                            <svg id="mic-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+                            <svg id="stop-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+                        </button>
+                        <span id="recording-status" class="recording-status">Click mic to record</span>
+                    </div>
+                    
+                    <textarea id="user-answer" placeholder="Type or record your answer here..."></textarea>
+                </div>
+                
+                <div class="button-container">
+                    <button id="submit-answer-btn" class="btn">Submit Answer</button>
+                    <button id="next-q-btn" class="btn hidden">Next Question</button>
+                </div>
+                
+                <div class="feedback-container" id="feedback-container">
+                    <div class="feedback-score" id="feedback-score"></div>
+                    <p class="feedback-text" id="feedback-text"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check for browser support
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const synthesis = window.speechSynthesis;
+            const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+
+            // Get data from Jinja
+            const subject = "{{ subject }}";
+            const level = "{{ level }}";
+            
+            // Get DOM elements
+            const loader = document.getElementById('loader');
+            const interviewContent = document.getElementById('interview-content');
+            const questionTextEl = document.getElementById('question-text');
+            const userAnswerEl = document.getElementById('user-answer');
+            const submitBtn = document.getElementById('submit-answer-btn');
+            const nextBtn = document.getElementById('next-q-btn');
+            const feedbackContainer = document.getElementById('feedback-container');
+            const feedbackScoreEl = document.getElementById('feedback-score');
+            const feedbackTextEl = document.getElementById('feedback-text');
+            
+            // New Voice-to-Text elements
+            const speakBtn = document.getElementById('speak-question-btn');
+            const recordBtn = document.getElementById('record-btn');
+            const micIcon = document.getElementById('mic-icon');
+            const stopIcon = document.getElementById('stop-icon');
+            const recordingStatus = document.getElementById('recording-status');
+            
+            let currentQuestion = "";
+            let isRecording = false;
+            let finalTranscript = "";
+
+            /**
+             * NEW: Read text aloud
+             */
+            function speakQuestion(text) {
+                if (synthesis.speaking) {
+                    synthesis.cancel();
+                }
+                const utterance = new SpeechSynthesisUtterance(text);
+                synthesis.speak(utterance);
+            }
+            speakBtn.addEventListener('click', () => speakQuestion(currentQuestion));
+
+            /**
+             * NEW: Setup Speech Recognition
+             */
+            if (recognition) {
+                recognition.continuous = true;
+                recognition.interimResults = true;
+
+                recognition.onstart = () => {
+                    isRecording = true;
+                    finalTranscript = userAnswerEl.value; // Start with any text already in the box
+                    recordingStatus.textContent = "Listening...";
+                    recordingStatus.classList.add('recording');
+                    micIcon.classList.add('hidden');
+                    stopIcon.classList.remove('hidden');
+                    recordBtn.classList.add('recording');
+                };
+
+                recognition.onend = () => {
+                    isRecording = false;
+                    recordingStatus.textContent = "Click mic to record";
+                    recordingStatus.classList.remove('recording');
+                    micIcon.classList.remove('hidden');
+                    stopIcon.classList.add('hidden');
+                    recordBtn.classList.remove('recording');
+                };
+
+                recognition.onresult = (event) => {
+                    let interimTranscript = '';
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        if (event.results[i].isFinal) {
+                            finalTranscript += event.results[i][0].transcript + ' ';
+                        } else {
+                            interimTranscript += event.results[i][0].transcript;
+                        }
+                    }
+                    userAnswerEl.value = finalTranscript + interimTranscript;
+                };
+
+                recordBtn.addEventListener('click', () => {
+                    if (isRecording) {
+                        recognition.stop();
+                    } else {
+                        // Ask for microphone permission
+                        recognition.start();
+                    }
+                });
+
+            } else {
+                // If browser doesn't support SpeechRecognition, hide the button
+                recordBtn.style.display = 'none';
+                recordingStatus.textContent = "Speech recognition not supported in this browser.";
+            }
+
+            /**
+             * Fetches a new question from the API
+             */
+            async function getNewQuestion() {
+                if (isRecording) {
+                    recognition.stop();
+                }
+                
+                loader.classList.remove('hidden');
+                interviewContent.classList.add('hidden');
+                feedbackContainer.style.display = 'none';
+                userAnswerEl.value = '';
+                finalTranscript = ''; // Reset transcript
+                
+                try {
+                    const response = await fetch('/api/get-interview-question', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ subject: subject, level: level })
+                    });
+                    
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.error);
+                    
+                    currentQuestion = data.question;
+                    questionTextEl.textContent = currentQuestion;
+                    
+                    // Automatically read the question aloud
+                    if ('speechSynthesis' in window) {
+                        speakQuestion(currentQuestion);
+                    }
+                    
+                    loader.classList.add('hidden');
+                    interviewContent.classList.remove('hidden');
+                    submitBtn.classList.remove('hidden');
+                    nextBtn.classList.add('hidden');
+                    submitBtn.disabled = false;
+                    userAnswerEl.disabled = false;
+
+                } catch (err) {
+                    questionTextEl.textContent = `Error loading question: ${err.message}`;
+                    loader.classList.add('hidden');
+                    interviewContent.classList.remove('hidden');
+                }
+            }
+            
+            /**
+             * Handles submitting the answer
+             */
+            submitBtn.addEventListener('click', async () => {
+                if (isRecording) {
+                    recognition.stop();
+                }
+                
+                const userAnswer = userAnswerEl.value;
+                if (userAnswer.trim().length < 10) {
+                    alert('Please provide a more detailed answer.');
+                    return;
+                }
+                
+                submitBtn.disabled = true;
+                userAnswerEl.disabled = true;
+                submitBtn.textContent = 'Grading...';
+                
+                try {
+                    const response = await fetch('/api/grade-answer', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            subject: subject,
+                            level: level,
+                            question: currentQuestion,
+                            user_answer: userAnswer
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.error);
+                    
+                    feedbackScoreEl.textContent = `Score: ${data.score} / 5`;
+                    feedbackTextEl.innerHTML = data.feedback.replace(/\n/g, '<br>'); // Format feedback
+                    
+                    feedbackContainer.className = 'feedback-container'; // Reset classes
+                    feedbackContainer.classList.add(`score-${data.score || 3}`);
+                    feedbackContainer.style.display = 'block';
+                    
+                    submitBtn.classList.add('hidden');
+                    nextBtn.classList.remove('hidden');
+
+                } catch (err) {
+                    feedbackScoreEl.textContent = `Error: ${err.message}`;
+                    feedbackContainer.className = 'feedback-container score-1';
+                    feedbackContainer.style.display = 'block';
+                    submitBtn.disabled = false;
+                    userAnswerEl.disabled = false;
+                }
+                
+                submitBtn.textContent = 'Submit Answer';
+            });
+            
+            /**
+             * Handles "Next Question" button click
+             */
+            nextBtn.addEventListener('click', () => {
+                getNewQuestion();
+            });
+
+            // Get the first question on page load
+            getNewQuestion();
+        });
+    </script>
+</body>
+</html>
+

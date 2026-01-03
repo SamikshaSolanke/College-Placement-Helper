@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App - Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: #333;
+            color: white;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: #555;
+        }
+
+        .profile-header {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .profile-header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .profile-header p {
+            color: #666;
+        }
+
+        .stats-overview {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .stats-overview h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .test-history {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 30px; /* Added margin */
+        }
+
+        .test-history h2 {
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .history-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .history-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .score-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        
+        /* Quiz Score Badges */
+        .score-excellent { background: #d4edda; color: #155724; }
+        .score-good { background: #fff3cd; color: #856404; }
+        .score-average { background: #ffeaa7; color: #856404; }
+        .score-poor { background: #f8d7da; color: #721c24; }
+        
+        /* NEW: Interview Score Badges */
+        .score-badge.score-5, .score-badge.score-4 { background: #d4edda; color: #155724; }
+        .score-badge.score-3 { background: #fff3cd; color: #856404; }
+        .score-badge.score-2, .score-badge.score-1 { background: #f8d7da; color: #721c24; }
+
+
+        .subject-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Classes to match your dashboard */
+        .subject-operating-systems { background: #007bff; }
+        .subject-database-management { background: #28a745; }
+        .subject-computer-networks { background: #ffc107; color: #333; }
+        .subject-system-design { background: #dc3545; }
+        .subject-default { background: #6c757d; }
+
+        .level-badge {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .level-beginner { background: #d4edda; color: #155724; }
+        .level-intermediate { background: #fff3cd; color: #856404; }
+        .level-advanced { background: #f8d7da; color: #721c24; }
+        .level-expert { background: #f8d7da; color: #721c24; }
+
+
+        .no-history {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+        }
+
+        .back-to-dashboard {
+            background: #007bff;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .back-to-dashboard:hover {
+            background: #0056b3;
+        }
+
+        .performance-summary {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .performance-summary h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .subject-performance {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .subject-perf-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .subject-perf-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .perf-details {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .perf-details div {
+            margin-bottom: 5px;
+        }
+        
+        .review-link {
+            background: #6c757d;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        .review-link:hover {
+            background: #5a6268;
+        }
+        
+        /* NEW: Interview Table Styles */
+        .interview-feedback {
+            font-size: 0.9rem;
+            color: #555;
+            white-space: pre-wrap; /* Preserves newlines from feedback */
+            max-height: 100px;
+            overflow-y: auto;
+            border: 1px dashed #ddd;
+            padding: 10px;
+            margin-top: 5px;
+            background: #fafafa;
+        }
+        .history-table td.question-cell {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Quiz App</div>
+            <nav class="nav-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="/dashboard" class="back-to-dashboard">← Back to Dashboard</a>
+
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <!-- We check if user_info[0] (display_name) exists before trying to slice it -->
+                {% if user_info and user_info[0] %}
+                    {{ user_info[0][0].upper() }}
+                {% else %}
+                    ?
+                {% endif %}
+            </div>
+            <h1>{{ user_info[0] }}</h1>
+            <p>{{ user_info[1] }}</p>
+        </div>
+
+        <!-- Stats Overview (from quizzes) -->
+        {% if stats.total_tests > 0 %}
+        <div class="stats-overview">
+            <h2>📊 Quiz Performance Overview</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">{{ stats.total_tests }}</div>
+                    <div class="stat-label">Total Quizzes Taken</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ stats.avg_score }}%</div>
+                    <div class="stat-label">Average Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ stats.best_score }}%</div>
+                    <div class="stat-label">Best Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ stats.subjects_attempted }}</div>
+                    <div class="stat-label">Subjects Attempted</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Subject-wise Performance (from quizzes) -->
+        <div class="performance-summary">
+            <h2>🎯 Subject-wise Quiz Performance</h2>
+            <div class="subject-performance">
+                {% for subject in subject_stats %}
+                    <div class="subject-perf-card">
+                        <h4>{{ subject.name }}</h4>
+                        <div class="perf-details">
+                            <div>Tests: {{ subject.test_count }}</div>
+                            <div>Avg Score: {{ subject.avg_score_percent }}%</div>
+                            <div>Best: {{ subject.best_score_percent }}%</div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p>No subject data to display yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Test History (Quizzes) -->
+        <div class="test-history">
+            <h2>📚 Quiz Test History</h2>
+            
+            {% if test_history %}
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Level</th>
+                        <th>Score</th>
+                        <th>Percentage</th>
+                        <th>Date</th>
+                        <th>Review</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- We loop over 'test_history' which is now a list of tuples -->
+                    {% for test in test_history %}
+                    <tr>
+                        <td>
+                            <!-- Used .replace(' ', '-') for CSS class safety -->
+                            {% set subject_class = test[0].lower().replace(' ', '-').replace('(', '').replace(')', '') or 'default' %}
+                            <span class="subject-badge subject-{{ subject_class }}">{{ test[0] }}</span>
+                        </td>
+                        <td>
+                            <span class="level-badge level-{{ test[1].lower() }}">{{ test[1] }}</span>
+                        </td>
+                        <td>{{ test[2] }}/{{ test[3] }}</td>
+                        <td>
+                            {% set percentage = (test[2] / test[3] * 100) | round(1) %}
+                            {% if percentage >= 80 %}
+                                <span class="score-badge score-excellent">{{ percentage }}%</span>
+                            {% elif percentage >= 70 %}
+                                <span class="score-badge score-good">{{ percentage }}%</span>
+                            {% elif percentage >= 50 %}
+                                <span class="score-badge score-average">{{ percentage }}%</span>
+                            {% else %}
+                                <span class="score-badge score-poor">{{ percentage }}%</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ test[4].strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>
+                            <a href="/result/{{ test[5] }}" class="review-link">Review</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="no-history">
+                <p>No test history found. Take your first quiz to see your results here!</p>
+                <br>
+                <a href="/dashboard" class="back-to-dashboard">Start Your First Quiz</a>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- NEW: Interview History -->
+        <div class="test-history">
+            <h2>🎙️ Mock Interview History</h2>
+            
+            {% if interview_history %}
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Question</th>
+                        <th>Score (1-5)</th>
+                        <th>Feedback</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in interview_history %}
+                    <tr>
+                        <td>
+                            {% set subject_class = item.subject.lower().replace(' ', '-').replace('(', '').replace(')', '') or 'default' %}
+                            <span class="subject-badge subject-{{ subject_class }}">{{ item.subject }}</span>
+                        </td>
+                        <td class="question-cell" title="{{ item.question_text }}">
+                            {{ item.question_text }}
+                        </td>
+                        <td>
+                            <span class="score-badge score-{{ item.ai_score }}">{{ item.ai_score }} / 5</span>
+                        </td>
+                        <td>
+                            <div class="interview-feedback">{{ item.ai_feedback }}</div>
+                        </td>
+                        <td>{{ item.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="no-history">
+                <p>No interview history found. Try your first mock interview!</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
+

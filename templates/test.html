@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-R">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App - Test</title>
+    <style>
+        /* CSS styles are unchanged */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: #333;
+            color: white;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: #555;
+        }
+
+        .test-header {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .test-header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .test-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .timer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            z-index: 1000;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .question-number {
+            background: #007bff;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            border-color: #007bff;
+            background-color: #f8f9ff;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .option.selected {
+            border-color: #007bff;
+            background-color: #e7f3ff;
+        }
+
+        .submit-section {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .submit-btn {
+            background: #28a745;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #218838;
+        }
+
+        .progress-bar {
+            background: #e1e1e1;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #007bff;
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Quiz App</div>
+            <nav class="nav-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/explore">Explore</a> <!-- NEW LINK -->
+                <a href="/profile">Profile</a>
+                <a href="/logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="timer" id="timer">25:00</div>
+
+    <div class="container">
+        <a href="/dashboard" class="back-btn">← Back to Dashboard</a>
+
+        <div class="test-header">
+            <h1>{{ subject }} - {{ level }} Level</h1>
+            <div class="test-info">
+                <div class="info-item">
+                    <span class="info-label">Questions</span>
+                    <span class="info-value">{{ questions|length }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Time Limit</span>
+                    <span class="info-value">25 minutes</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Subject</span>
+                    <span class="info-value">{{ subject }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 0%" id="progress"></div>
+        </div>
+
+        <form method="POST" action="/submit_test" id="testForm">
+            <!-- This data is now read from the session, but it's good practice to keep it -->
+            <input type="hidden" name="subject" value="{{ subject }}">
+            <input type="hidden" name="level" value="{{ level }}">
+
+            {% for question in questions %}
+            <div class="question-card">
+                <div class="question-number">Question {{ loop.index }}</div>
+                <!-- This now matches the schema: {{ question.question }} -->
+                <div class="question-text">{{ question.question }}</div>
+                
+                <div class="options">
+                    <!-- This now matches the schema: {{ question.option_a }} -->
+                    <div class="option" onclick="selectOption(this, '{{ question.id }}', 'A')">
+                        <input type="radio" name="q_{{ question.id }}" value="A" id="q{{ question.id }}_a" required>
+                        <label for="q{{ question.id }}_a">A) {{ question.option_a }}</label>
+                    </div>
+                    <!-- This now matches the schema: {{ question.option_b }} -->
+                    <div class="option" onclick="selectOption(this, '{{ question.id }}', 'B')">
+                        <input type="radio" name="q_{{ question.id }}" value="B" id="q{{ question.id }}_b" required>
+                        <label for="q{{ question.id }}_b">B) {{ question.option_b }}</label>
+                    </div>
+                    <!-- This now matches the schema: {{ question.option_c }} -->
+                    <div class="option" onclick="selectOption(this, '{{ question.id }}', 'C')">
+                        <input type="radio" name="q_{{ question.id }}" value="C" id="q{{ question.id }}_c" required>
+                        <label for="q{{ question.id }}_c">C) {{ question.option_c }}</label>
+                    </div>
+                    <!-- This now matches the schema: {{ question.option_d }} -->
+                    <div class="option" onclick="selectOption(this, '{{ question.id }}', 'D')">
+                        <input type="radio" name="q_{{ question.id }}" value="D" id="q{{ question.id }}_d" required>
+                        <label for="q{{ question.id }}_d">D) {{ question.option_d }}</label>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="submit-section">
+                <button type="submit" class="submit-btn">Submit Test</button>
+                <p style="margin-top: 10px; color: #666;">Make sure to review all your answers before submitting</p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let timeLeft = 25 * 60; // 25 minutes in seconds
+        let totalQuestions = {{ questions|length }};
+        let answeredQuestions = 0;
+
+        // Define the beforeunload handler as a named function
+        function handleBeforeUnload(e) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft <= 0) {
+                alert('Time is up! Submitting your test automatically.');
+                document.getElementById('testForm').submit();
+            }
+            
+            timeLeft--;
+        }
+
+        function selectOption(optionElement, questionId, value) {
+            // Remove selected class from all options in this question
+            const questionCard = optionElement.closest('.question-card');
+            const allOptions = questionCard.querySelectorAll('.option');
+            allOptions.forEach(opt => opt.classList.remove('selected'));
+            
+            // Add selected class to clicked option
+            optionElement.classList.add('selected');
+            
+            // Check the radio button
+            optionElement.querySelector('input[type="radio"]').checked = true;
+            
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const checkedInputs = document.querySelectorAll('input[type="radio"]:checked');
+            answeredQuestions = checkedInputs.length;
+            const progress = (answeredQuestions / totalQuestions) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        // Start the timer
+        setInterval(updateTimer, 1000);
+        
+        // Add the beforeunload event listener
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        // Remove the beforeunload event when form is submitted
+        document.getElementById('testForm').addEventListener('submit', function() {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        });
+    </script>
+</body>
+</html>

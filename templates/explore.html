@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App - Explore Topics</title>
+    <style>
+        /* Base styles from your other pages */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: #333;
+            color: white;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        .nav-links a:hover {
+            background-color: #555;
+        }
+        
+        /* Explore Page Styles */
+        .explore-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .explore-card h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .explore-card p {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .custom-topic-input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        .custom-topic-input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Quiz App</div>
+            <nav class="nav-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/explore">Explore</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="explore-card">
+            <h1>Explore Any Topic</h1>
+            <p>What do you want to be quizzed on today?</p>
+            
+            <div class="form-group">
+                <input type="text" id="custom-topic-input" placeholder="e.g., 'Roman History', 'Python Data Structures', etc.">
+            </div>
+            
+            <button id="generate-quiz-btn" class="btn">Generate Beginner Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('generate-quiz-btn').addEventListener('click', () => {
+            const topic = document.getElementById('custom-topic-input').value;
+            
+            if (topic.trim() === '') {
+                alert('Please enter a topic!');
+                return;
+            }
+            
+            // Redirect to the test page, using the existing route.
+            // The backend /test route will handle this automatically.
+            // We default to 'Beginner' level for simplicity.
+            window.location.href = `/test?subject=${encodeURIComponent(topic)}&level=Beginner`;
+        });
+    </script>
+</body>
+</html>

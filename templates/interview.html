@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz App - Mock Interview</title>
+    <title>College-Placement-Helper</title>
     <style>
         /* Base styles from your other pages */
         * {
@@ -11,22 +12,26 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             line-height: 1.6;
         }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
+
         header {
             background: #333;
             color: white;
             padding: 1rem 0;
             margin-bottom: 2rem;
         }
+
         .header-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -35,14 +40,17 @@
             align-items: center;
             padding: 0 20px;
         }
+
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
         }
+
         .nav-links {
             display: flex;
             gap: 20px;
         }
+
         .nav-links a {
             color: white;
             text-decoration: none;
@@ -50,9 +58,11 @@
             border-radius: 3px;
             transition: background-color 0.3s;
         }
+
         .nav-links a:hover {
             background-color: #555;
         }
+
         .back-btn {
             background: #6c757d;
             color: white;
@@ -63,6 +73,7 @@
             display: inline-block;
             margin-bottom: 20px;
         }
+
         .back-btn:hover {
             background: #545b62;
         }
@@ -73,24 +84,26 @@
             border-radius: 8px;
             padding: 25px;
             margin-bottom: 25px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+
         .interview-header h1 {
             color: #333;
             margin-bottom: 5px;
         }
+
         .interview-header p {
             color: #666;
             font-size: 1.1rem;
         }
-        
+
         .interview-card {
             background: white;
             border-radius: 8px;
             padding: 25px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .question-container {
@@ -98,11 +111,13 @@
             align-items: flex-start;
             gap: 15px;
         }
+
         .question-container h3 {
             color: #007bff;
             margin-bottom: 10px;
             flex-shrink: 0;
         }
+
         .question-text {
             font-size: 1.2rem;
             color: #333;
@@ -111,7 +126,7 @@
             line-height: 1.5;
             flex-grow: 1;
         }
-        
+
         /* NEW: Speak Button */
         .speak-btn {
             background: none;
@@ -121,9 +136,11 @@
             opacity: 0.6;
             transition: opacity 0.2s;
         }
+
         .speak-btn:hover {
             opacity: 1;
         }
+
         .speak-btn svg {
             width: 24px;
             height: 24px;
@@ -137,6 +154,7 @@
             gap: 15px;
             margin-bottom: 15px;
         }
+
         .record-btn {
             background-color: #dc3545;
             color: white;
@@ -150,20 +168,24 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
+
         .record-btn.recording {
             background-color: #007bff;
             animation: pulse 1.5s infinite;
         }
+
         .record-btn svg {
             width: 24px;
             height: 24px;
             fill: white;
         }
+
         .recording-status {
             font-size: 1rem;
             font-weight: bold;
             color: #dc3545;
         }
+
         .recording-status.recording {
             color: #007bff;
         }
@@ -179,25 +201,42 @@
             line-height: 1.6;
             resize: vertical;
         }
-        
+
         .feedback-container {
-            display: none; /* Hidden by default */
+            display: none;
+            /* Hidden by default */
             margin-top: 20px;
             padding: 20px;
             border-radius: 8px;
         }
+
         .feedback-container h3 {
             margin-bottom: 15px;
         }
-        .feedback-container.score-1, .feedback-container.score-2 { background: #f8d7da; border-left: 5px solid #721c24; }
-        .feedback-container.score-3 { background: #fff3cd; border-left: 5px solid #856404; }
-        .feedback-container.score-4, .feedback-container.score-5 { background: #d4edda; border-left: 5px solid #155724; }
-        
+
+        .feedback-container.score-1,
+        .feedback-container.score-2 {
+            background: #f8d7da;
+            border-left: 5px solid #721c24;
+        }
+
+        .feedback-container.score-3 {
+            background: #fff3cd;
+            border-left: 5px solid #856404;
+        }
+
+        .feedback-container.score-4,
+        .feedback-container.score-5 {
+            background: #d4edda;
+            border-left: 5px solid #155724;
+        }
+
         .feedback-score {
             font-size: 1.5rem;
             font-weight: bold;
             margin-bottom: 10px;
         }
+
         .feedback-text {
             font-size: 1rem;
             line-height: 1.6;
@@ -207,6 +246,7 @@
             text-align: center;
             margin-top: 20px;
         }
+
         .btn {
             background: #28a745;
             color: white;
@@ -218,17 +258,20 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
+
         .btn:hover {
             background: #218838;
         }
+
         .btn[disabled] {
             background: #aaa;
             cursor: not-allowed;
         }
-        
+
         #next-q-btn {
             background: #007bff;
         }
+
         #next-q-btn:hover {
             background: #0056b3;
         }
@@ -243,26 +286,116 @@
             animation: spin 1s linear infinite;
             margin: 20px auto;
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
-        
+
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+            }
         }
-        
+
         .hidden {
             display: none;
         }
+
+        /* VIDEO INTERVIEW STYLES */
+        .mode-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mode-toggle button {
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            background: white;
+            color: #007bff;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .mode-toggle button.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .video-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            background: #000;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        video {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 8px;
+            background: #333;
+        }
+
+        .video-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .vid-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-start {
+            background: #28a745;
+        }
+
+        .btn-stop {
+            background: #dc3545;
+        }
+
+        .btn-retake {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .vid-btn[disabled] {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     </style>
 </head>
+
 <body>
     <header>
         <div class="header-content">
-            <div class="logo">Quiz App</div>
+            <div class="logo">PlacementPro</div>
             <nav class="nav-links">
                 <a href="/dashboard">Dashboard</a>
                 <a href="/explore">Explore</a>
@@ -291,28 +424,53 @@
                     <p class="question-text" id="question-text"></p>
                     <!-- NEW: Speak Button -->
                     <button id="speak-question-btn" class="speak-btn" title="Read question aloud">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
                     </button>
                 </div>
-                
-                <div class="answer-container">
-                    <!-- NEW: Voice Controls -->
-                    <div class="voice-controls">
-                        <button id="record-btn" class="record-btn" title="Record Answer">
-                            <svg id="mic-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
-                            <svg id="stop-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
-                        </button>
-                        <span id="recording-status" class="recording-status">Click mic to record</span>
+
+                <div class="mode-toggle">
+                    <button id="mode-video" class="active">Video Answer</button>
+                    <button id="mode-text">Text Answer</button>
+                </div>
+
+                <!-- Video UI -->
+                <div id="video-ui" class="video-container">
+                    <video id="camera-preview" autoplay muted playsinline></video>
+                    <video id="recorded-video" controls class="hidden"></video>
+
+                    <div class="video-controls">
+                        <button id="start-recording" class="vid-btn btn-start">Start Recording</button>
+                        <button id="stop-recording" class="vid-btn btn-stop" disabled>Stop Recording</button>
+                        <button id="retake-video" class="vid-btn btn-retake hidden">Retake</button>
                     </div>
-                    
+                    <p id="video-status" style="color: white;">Camera ready</p>
+                </div>
+
+                <!-- Text UI (Hidden by default) -->
+                <div id="text-ui" class="answer-container hidden">
+                    <div class="voice-controls">
+                        <button id="record-btn" class="record-btn" title="Record Answer (Speech-to-Text)">
+                            <svg id="mic-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z" />
+                            </svg>
+                            <svg id="stop-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6 6h12v12H6z" />
+                            </svg>
+                        </button>
+                        <span id="recording-status" class="recording-status">Click mic to dictate</span>
+                    </div>
                     <textarea id="user-answer" placeholder="Type or record your answer here..."></textarea>
                 </div>
-                
+
                 <div class="button-container">
                     <button id="submit-answer-btn" class="btn">Submit Answer</button>
                     <button id="next-q-btn" class="btn hidden">Next Question</button>
                 </div>
-                
+
                 <div class="feedback-container" id="feedback-container">
                     <div class="feedback-score" id="feedback-score"></div>
                     <p class="feedback-text" id="feedback-text"></p>
@@ -323,213 +481,325 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Check for browser support
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            const synthesis = window.speechSynthesis;
-            const recognition = SpeechRecognition ? new SpeechRecognition() : null;
-
-            // Get data from Jinja
+            // Globals
             const subject = "{{ subject }}";
             const level = "{{ level }}";
-            
-            // Get DOM elements
+            let currentQuestion = "";
+            let isRecordingVideo = false;
+            let mediaRecorder;
+            let recordedChunks = [];
+            let videoBlob = null;
+            let stream = null;
+            let currentMode = 'video'; // 'video' or 'text'
+
+            // DOM Elements
             const loader = document.getElementById('loader');
             const interviewContent = document.getElementById('interview-content');
             const questionTextEl = document.getElementById('question-text');
-            const userAnswerEl = document.getElementById('user-answer');
+            const speakBtn = document.getElementById('speak-question-btn');
             const submitBtn = document.getElementById('submit-answer-btn');
             const nextBtn = document.getElementById('next-q-btn');
+
             const feedbackContainer = document.getElementById('feedback-container');
             const feedbackScoreEl = document.getElementById('feedback-score');
             const feedbackTextEl = document.getElementById('feedback-text');
-            
-            // New Voice-to-Text elements
-            const speakBtn = document.getElementById('speak-question-btn');
-            const recordBtn = document.getElementById('record-btn');
+
+            // Mode Toggle
+            const modeVideoBtn = document.getElementById('mode-video');
+            const modeTextBtn = document.getElementById('mode-text');
+            const videoUi = document.getElementById('video-ui');
+            const textUi = document.getElementById('text-ui');
+
+            // Video Elements
+            const cameraPreview = document.getElementById('camera-preview');
+            const recordedVideo = document.getElementById('recorded-video');
+            const btnStart = document.getElementById('start-recording');
+            const btnStop = document.getElementById('stop-recording');
+            const btnRetake = document.getElementById('retake-video');
+            const videoStatus = document.getElementById('video-status');
+
+            // Text/Voice Elements (Legacy)
+            const userAnswerEl = document.getElementById('user-answer');
+            const recordTextBtn = document.getElementById('record-btn'); // Renamed to avoid confusion
             const micIcon = document.getElementById('mic-icon');
             const stopIcon = document.getElementById('stop-icon');
             const recordingStatus = document.getElementById('recording-status');
-            
-            let currentQuestion = "";
-            let isRecording = false;
-            let finalTranscript = "";
 
-            /**
-             * NEW: Read text aloud
-             */
-            function speakQuestion(text) {
-                if (synthesis.speaking) {
-                    synthesis.cancel();
+            // --- 1. MODE SWITCHING ---
+            modeVideoBtn.addEventListener('click', () => setMode('video'));
+            modeTextBtn.addEventListener('click', () => setMode('text'));
+
+            function setMode(mode) {
+                currentMode = mode;
+                if (mode === 'video') {
+                    modeVideoBtn.classList.add('active');
+                    modeTextBtn.classList.remove('active');
+                    videoUi.classList.remove('hidden');
+                    textUi.classList.add('hidden');
+                    initCamera();
+                } else {
+                    modeVideoBtn.classList.remove('active');
+                    modeTextBtn.classList.add('active');
+                    videoUi.classList.add('hidden');
+                    textUi.classList.remove('hidden');
+                    stopCamera();
                 }
+            }
+
+            // --- 2. VIDEO RECORDING LOGIC ---
+            async function initCamera() {
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                    cameraPreview.srcObject = stream;
+                    cameraPreview.classList.remove('hidden');
+                    recordedVideo.classList.add('hidden');
+                    btnStart.disabled = false;
+                    videoStatus.textContent = "Camera ready";
+                } catch (err) {
+                    console.error("Camera error:", err);
+                    videoStatus.textContent = "Camera access denied or error: " + err.message;
+                    btnStart.disabled = true;
+                }
+            }
+
+            function stopCamera() {
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    stream = null;
+                }
+            }
+
+            btnStart.addEventListener('click', () => {
+                recordedChunks = [];
+                try {
+                    mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+                } catch (e) {
+                    // Fallback for Safari/others if video/webm not supported
+                    mediaRecorder = new MediaRecorder(stream);
+                }
+
+                mediaRecorder.ondataavailable = event => {
+                    if (event.data.size > 0) recordedChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
+                    const videoUrl = URL.createObjectURL(videoBlob);
+
+                    cameraPreview.classList.add('hidden');
+                    recordedVideo.src = videoUrl;
+                    recordedVideo.classList.remove('hidden');
+                    btnRetake.classList.remove('hidden');
+
+                    // Allow submit
+                    submitBtn.disabled = false;
+                    videoStatus.textContent = "Recording captured. Ready to submit.";
+                };
+
+                mediaRecorder.start();
+                isRecordingVideo = true;
+                btnStart.disabled = true;
+                btnStop.disabled = false;
+                btnRetake.classList.add('hidden');
+                videoStatus.textContent = "Recording...";
+                videoStatus.style.color = "#dc3545";
+            });
+
+            btnStop.addEventListener('click', () => {
+                if (mediaRecorder && isRecordingVideo) {
+                    mediaRecorder.stop();
+                    isRecordingVideo = false;
+                    btnStart.disabled = true; // Can't start until retake
+                    btnStop.disabled = true;
+                    videoStatus.textContent = "Processing preview...";
+                    videoStatus.style.color = "white";
+                }
+            });
+
+            btnRetake.addEventListener('click', () => {
+                recordedVideo.pause();
+                recordedVideo.classList.add('hidden');
+                cameraPreview.classList.remove('hidden');
+                videoBlob = null;
+                btnStart.disabled = false;
+                btnStop.disabled = true;
+                btnRetake.classList.add('hidden');
+                submitBtn.disabled = false; // Usually keep enabled, but maybe user wants to answer
+                videoStatus.textContent = "Camera ready";
+            });
+
+            // --- 3. TEXT/SPEECH LOGIC (Legacy) ---
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+            let isRecordingText = false;
+
+            if (recognition) {
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.onresult = (event) => {
+                    let transcript = '';
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        transcript += event.results[i][0].transcript;
+                    }
+                    userAnswerEl.value = transcript;
+                };
+
+                recordTextBtn.addEventListener('click', () => {
+                    if (isRecordingText) {
+                        recognition.stop();
+                        isRecordingText = false;
+                        micIcon.classList.remove('hidden');
+                        stopIcon.classList.add('hidden');
+                        recordingStatus.textContent = "Click mic to dictate";
+                        recordingStatus.classList.remove('recording');
+                    } else {
+                        recognition.start();
+                        isRecordingText = true;
+                        micIcon.classList.add('hidden');
+                        stopIcon.classList.remove('hidden');
+                        recordingStatus.textContent = "Listening...";
+                        recordingStatus.classList.add('recording');
+                    }
+                });
+            } else {
+                if (recordTextBtn) recordTextBtn.style.display = 'none';
+            }
+
+            // --- 4. GENERAL FUNCTIONALITY ---
+            const synthesis = window.speechSynthesis;
+            function speakQuestion(text) {
+                if (!synthesis) return;
+                if (synthesis.speaking) synthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(text);
                 synthesis.speak(utterance);
             }
             speakBtn.addEventListener('click', () => speakQuestion(currentQuestion));
 
-            /**
-             * NEW: Setup Speech Recognition
-             */
-            if (recognition) {
-                recognition.continuous = true;
-                recognition.interimResults = true;
-
-                recognition.onstart = () => {
-                    isRecording = true;
-                    finalTranscript = userAnswerEl.value; // Start with any text already in the box
-                    recordingStatus.textContent = "Listening...";
-                    recordingStatus.classList.add('recording');
-                    micIcon.classList.add('hidden');
-                    stopIcon.classList.remove('hidden');
-                    recordBtn.classList.add('recording');
-                };
-
-                recognition.onend = () => {
-                    isRecording = false;
-                    recordingStatus.textContent = "Click mic to record";
-                    recordingStatus.classList.remove('recording');
-                    micIcon.classList.remove('hidden');
-                    stopIcon.classList.add('hidden');
-                    recordBtn.classList.remove('recording');
-                };
-
-                recognition.onresult = (event) => {
-                    let interimTranscript = '';
-                    for (let i = event.resultIndex; i < event.results.length; ++i) {
-                        if (event.results[i].isFinal) {
-                            finalTranscript += event.results[i][0].transcript + ' ';
-                        } else {
-                            interimTranscript += event.results[i][0].transcript;
-                        }
-                    }
-                    userAnswerEl.value = finalTranscript + interimTranscript;
-                };
-
-                recordBtn.addEventListener('click', () => {
-                    if (isRecording) {
-                        recognition.stop();
-                    } else {
-                        // Ask for microphone permission
-                        recognition.start();
-                    }
-                });
-
-            } else {
-                // If browser doesn't support SpeechRecognition, hide the button
-                recordBtn.style.display = 'none';
-                recordingStatus.textContent = "Speech recognition not supported in this browser.";
-            }
-
-            /**
-             * Fetches a new question from the API
-             */
+            // Fetch Question
             async function getNewQuestion() {
-                if (isRecording) {
-                    recognition.stop();
-                }
-                
                 loader.classList.remove('hidden');
                 interviewContent.classList.add('hidden');
                 feedbackContainer.style.display = 'none';
-                userAnswerEl.value = '';
-                finalTranscript = ''; // Reset transcript
-                
+
+                // Reset Video State
+                if (isRecordingVideo) btnStop.click();
+                videoBlob = null;
+                if (currentMode === 'video') initCamera();
+
                 try {
                     const response = await fetch('/api/get-interview-question', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ subject: subject, level: level })
+                        body: JSON.stringify({ subject, level })
                     });
-                    
+                    if (!response.ok) {
+                        const errData = await response.json();
+                        throw new Error(errData.error || `Server Error (${response.status})`);
+                    }
                     const data = await response.json();
-                    if (!response.ok) throw new Error(data.error);
-                    
+
                     currentQuestion = data.question;
                     questionTextEl.textContent = currentQuestion;
-                    
-                    // Automatically read the question aloud
-                    if ('speechSynthesis' in window) {
-                        speakQuestion(currentQuestion);
-                    }
-                    
+                    // Reset UI in case of previous error
+                    document.getElementById('speak-question-btn').style.display = 'inline-block';
+                    // speakQuestion(currentQuestion); // Optional auto-read
+
                     loader.classList.add('hidden');
                     interviewContent.classList.remove('hidden');
                     submitBtn.classList.remove('hidden');
                     nextBtn.classList.add('hidden');
                     submitBtn.disabled = false;
-                    userAnswerEl.disabled = false;
-
                 } catch (err) {
-                    questionTextEl.textContent = `Error loading question: ${err.message}`;
+                    console.error(err);
+                    questionTextEl.innerHTML = `<span style="color: red; font-weight: bold;">Error: ${err.message}. Please try again later.</span>`;
                     loader.classList.add('hidden');
                     interviewContent.classList.remove('hidden');
+                    // Hide controls if there's an error
+                    document.getElementById('speak-question-btn').style.display = 'none';
+                    submitBtn.classList.add('hidden');
                 }
             }
-            
-            /**
-             * Handles submitting the answer
-             */
+
+            // Submit Answer
             submitBtn.addEventListener('click', async () => {
-                if (isRecording) {
-                    recognition.stop();
-                }
-                
-                const userAnswer = userAnswerEl.value;
-                if (userAnswer.trim().length < 10) {
-                    alert('Please provide a more detailed answer.');
-                    return;
-                }
-                
                 submitBtn.disabled = true;
-                userAnswerEl.disabled = true;
                 submitBtn.textContent = 'Grading...';
-                
+
                 try {
-                    const response = await fetch('/api/grade-answer', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            subject: subject,
-                            level: level,
+                    let url, body, headers;
+
+                    if (currentMode === 'video') {
+                        if (!videoBlob) {
+                            alert('Please record a video answer first!');
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Submit Answer';
+                            return;
+                        }
+                        url = '/api/grade-video';
+                        const formData = new FormData();
+                        formData.append('video', videoBlob, 'answer.webm');
+                        formData.append('subject', subject);
+                        formData.append('level', level);
+                        formData.append('question', currentQuestion);
+
+                        body = formData; // headers auto-set for FormData
+                    } else {
+                        // Text Mode
+                        if (userAnswerEl.value.trim().length < 5) {
+                            alert('Please provide a longer answer.');
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Submit Answer';
+                            return;
+                        }
+                        url = '/api/grade-answer';
+                        headers = { 'Content-Type': 'application/json' };
+                        body = JSON.stringify({
+                            subject, level,
                             question: currentQuestion,
-                            user_answer: userAnswer
-                        })
+                            user_answer: userAnswerEl.value
+                        });
+                    }
+
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: headers, // undefined for FormData is correct
+                        body: body
                     });
-                    
+
                     const data = await response.json();
-                    if (!response.ok) throw new Error(data.error);
-                    
+                    if (!response.ok) throw new Error(data.error || 'Server Error');
+
+                    // Show Feedback
                     feedbackScoreEl.textContent = `Score: ${data.score} / 5`;
-                    feedbackTextEl.innerHTML = data.feedback.replace(/\n/g, '<br>'); // Format feedback
-                    
-                    feedbackContainer.className = 'feedback-container'; // Reset classes
+                    // Convert newlines and bold markdown to HTML
+                    let formattedFeedback = data.feedback
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\n/g, '<br>');
+
+                    feedbackTextEl.innerHTML = formattedFeedback;
+
+                    feedbackContainer.className = 'feedback-container';
                     feedbackContainer.classList.add(`score-${data.score || 3}`);
                     feedbackContainer.style.display = 'block';
-                    
+
                     submitBtn.classList.add('hidden');
                     nextBtn.classList.remove('hidden');
+                    submitBtn.textContent = 'Submit Answer';
 
                 } catch (err) {
-                    feedbackScoreEl.textContent = `Error: ${err.message}`;
-                    feedbackContainer.className = 'feedback-container score-1';
-                    feedbackContainer.style.display = 'block';
+                    alert('Error submitting: ' + err.message);
                     submitBtn.disabled = false;
-                    userAnswerEl.disabled = false;
+                    submitBtn.textContent = 'Submit Answer';
                 }
-                
-                submitBtn.textContent = 'Submit Answer';
-            });
-            
-            /**
-             * Handles "Next Question" button click
-             */
-            nextBtn.addEventListener('click', () => {
-                getNewQuestion();
             });
 
-            // Get the first question on page load
+            nextBtn.addEventListener('click', getNewQuestion);
+
+            // Initial call
             getNewQuestion();
+            setMode('video'); // Default to video
         });
     </script>
 </body>
-</html>
 
+</html>

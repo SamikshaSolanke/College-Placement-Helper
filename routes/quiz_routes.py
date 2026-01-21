@@ -154,14 +154,17 @@ def api_study_guide():
         
     try:
         data = request.json
+        subject = data.get('subject')
+        level = data.get('level', 'Intermediate') # Default to Intermediate if not provided
+
         prompt = f"""
         You are an expert tutor. Generate a concise study guide
-        for the topic "{data.get('subject')}" at a "{data.get('level')}" level.
-        The guide should consist of key concepts, important definitions,
-        and core principles, formatted clearly with bullet points.
+        for the topic "{subject}" at a "{level}" level.
+        The guide should be able to help a student who has never taken this course and be able to study for this subject with the hlp of study guide provided by you.
+        Suggest key topics and subtopics to cover in the study guide. Also, Suggest youtube videos and website links to cover in the study guide.
         """
         response = model.generate_content(prompt)
-        return jsonify({"guide_text": response.text})
+        return jsonify({"guide": response.text})
         
     except Exception as e:
         return jsonify({"error": str(e)}), 500

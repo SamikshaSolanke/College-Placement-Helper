@@ -40,6 +40,9 @@ def api_get_interview_question():
         return jsonify({"question": response.text})
         
     except Exception as e:
+        print(f"Error in api_get_interview_question: {e}")
+        import traceback
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 @interview.route("/api/grade-answer", methods=["POST"])
@@ -91,3 +94,71 @@ def api_grade_answer():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+
+@interview.route("/api/grade-video", methods=["POST"])
+@login_required
+def api_grade_video():
+    """API endpoint to grade a video interview answer."""
+    import os
+    import time
+    from werkzeug.utils import secure_filename
+    from services.gemini_service import analyze_video_interview
+    
+    if not model:
+        return jsonify({"error": "Model not initialized"}), 500
+        
+    try:
+        # 1. Check for video file
+        if 'video' not in request.files:
+            return jsonify({"error": "No video file provided"}), 400
+            
+        video_file = request.files['video']
+        if video_file.filename == '':
+            return jsonify({"error": "No selected file"}), 400
+
+        # 2. Save to temp file
+        temp_dir = os.path.join(os.getcwd(), 'temp')
+        os.makedirs(temp_dir, exist_ok=True)
+        
+        filename = secure_filename(f"user_{current_user.id}_{int(time.time())}.webm")
+        temp_path = os.path.join(temp_dir, filename)
+        video_file.save(temp_path)
+        
+        # 3. Get metadata from form
+        subject = request.form.get('subject')
+        level = request.form.get('level')
+        question = request.form.get('question')
+        
+        # 4. Call Gemini Service
+        result_data = analyze_video_interview(temp_path, question, subject, level)
+        
+        # 5. Clean up temp file
+        try:
+            os.remove(temp_path)
+        except:
+            pass
+            
+        # 6. Save to DB
+        # We combine technical and body language feedback
+        combined_feedback = f"**Technical Feedback:**\n{result_data.get('technical_feedback')}\n\n**Body Language Feedback:**\n{result_data.get('body_language_feedback')}"
+        
+        new_interview = InterviewResult(
+            subject=subject,
+            level=level,
+            question_text=question,
+            user_answer="[Video Submission]", 
+            ai_feedback=combined_feedback,
+            ai_score=result_data.get('score'),
+            user_id=current_user.id
+        )
+        db.session.add(new_interview)
+        db.session.commit()
+        
+        return jsonify({
+            "score": result_data.get('score'),
+            "feedback": combined_feedback
+        })
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+

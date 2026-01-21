@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,7 +57,9 @@
             font-weight: 600;
         }
 
-        input[type="text"], input[type="email"], input[type="password"] {
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
             width: 100%;
             padding: 12px;
             border: 2px solid #e1e1e1;
@@ -65,7 +68,9 @@
             transition: border-color 0.3s;
         }
 
-        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
             outline: none;
             border-color: #667eea;
         }
@@ -109,38 +114,39 @@
         }
     </style>
 </head>
+
 <body>
     <div class="auth-container">
         <div class="auth-header">
             <h1>Register</h1>
             <p>Create your account</p>
         </div>
-        
+
         <div class="auth-content">
             {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
             {% endwith %}
 
             <form method="POST" action="/register">
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required>
+                    <label for="displayName">Display Name</label>
+                    <input type="text" id="displayName" name="displayName" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" required>
                 </div>
-                
+
                 <button type="submit">Register</button>
             </form>
 
@@ -150,4 +156,5 @@
         </div>
     </div>
 </body>
+
 </html>

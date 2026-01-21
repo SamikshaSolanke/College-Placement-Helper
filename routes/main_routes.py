@@ -13,7 +13,7 @@ main = Blueprint('main', __name__)
 def dashboard():
     """Renders the main dashboard page with a personalized AI tutor tip."""
     
-    ai_tutor_tip = "Welcome! Choose a subject to get started." # Default tip
+    ai_tutor_tip = "Welcome! Choose a subject to get started." 
     
     try:
         # Get all quiz results to find weakest subject
@@ -27,7 +27,6 @@ def dashboard():
                 if r.subject not in subject_scores:
                     subject_scores[r.subject] = 0
                     subject_counts[r.subject] = 0
-                # Ensure r.total is not zero to avoid DivisionZeroError
                 if r.total > 0:
                     subject_scores[r.subject] += (r.score / r.total)
                     subject_counts[r.subject] += 1
@@ -93,7 +92,7 @@ def profile():
             r.score,
             r.total,
             r.timestamp,
-            r.id  # Pass the ID for the "Review" link
+            r.id  
         ))
         
     total_tests = len(all_quiz_results)

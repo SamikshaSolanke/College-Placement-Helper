@@ -4,12 +4,7 @@ from google.generativeai.protos import Schema, Type
 import json
 import os
 
-# --- Configuration ---
-# MODEL_NAME = "gemini-2.5-flash-preview-09-2025"
-MODEL_NAME = "gemini-1.5-flash" 
-
-MODEL_NAME = "gemini-2.5-flash-preview-09-2025"
-
+MODEL_NAME = "gemini-2.5-flash-lite" 
 api_key = os.getenv("GOOGLE_API_KEY")
 
 try:
@@ -137,3 +132,88 @@ def generate_quiz_from_gemini(subject, level, num_questions=10):
                 "correct_answer_letter": "A"
             }
         ]
+
+# --- Define Video Interview Grade JSON structure ---
+video_interview_grade_schema = Schema(
+    type=Type.OBJECT,
+    properties={
+        'score': Schema(
+            type=Type.INTEGER,
+            description="A score from 1 (poor) to 5 (excellent) based on technical accuracy."
+        ),
+        'technical_feedback': Schema(
+            type=Type.STRING,
+            description="Feedback on the technical content of the answer."
+        ),
+        'body_language_feedback': Schema(
+            type=Type.STRING,
+            description="Feedback on non-verbal cues (eye contact, confidence, tone, pacing)."
+        )
+    },
+    required=['score', 'technical_feedback', 'body_language_feedback']
+)
+
+def analyze_video_interview(video_path, question_text, subject, level):
+    """
+    Uploads a video to Gemini and gets technical + body language feedback.
+    """
+    if not model:
+        raise Exception("Gemini model is not initialized.")
+
+    import time
+    
+    try:
+        # 1. Upload the video
+        print(f"Uploading video: {video_path}")
+        video_file = genai.upload_file(path=video_path)
+        print(f"Completed upload: {video_file.uri}")
+
+        # 2. Wait for processing
+        while video_file.state.name == "PROCESSING":
+            print("Processing video...")
+            time.sleep(1)
+            video_file = genai.get_file(video_file.name)
+            
+        if video_file.state.name == "FAILED":
+            raise Exception("Video processing failed by Gemini.")
+
+        # 3. Generate Content
+        prompt = f"""
+        You are an expert interviewer. 
+        A candidate is answering the following interview question on "{subject}" (Level: {level}):
+        "{question_text}"
+
+        Please analyze the attached video response.
+        1. Listen to their answer and evaluate its technical accuracy.
+        2. Watch their body language and evaluate their confidence, eye contact, and delivery.
+
+        Provide the output in strict JSON format with:
+        - score (1-5)
+        - technical_feedback (string)
+        - body_language_feedback (string)
+        """
+
+        generation_config = GenerationConfig(
+            response_mime_type="application/json",
+            response_schema=video_interview_grade_schema
+        )
+
+        response = model.generate_content(
+            [video_file, prompt],
+            generation_config=generation_config
+        )
+        
+        # Clean up (optional but recommended to delete file from cloud if possible, 
+        # though genai.delete_file(name) exists, we might want to keep it or delete it later. 
+        # For now, let's leave it or delete it.)
+        try:
+            genai.delete_file(video_file.name)
+        except:
+            pass
+
+        return json.loads(response.text)
+
+    except Exception as e:
+        print(f"Error analyzing video: {e}")
+        raise e
+

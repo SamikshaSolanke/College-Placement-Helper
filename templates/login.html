@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,7 +61,8 @@
             font-weight: 600;
         }
 
-        input[type="text"], input[type="password"] {
+        input[type="text"],
+        input[type="password"] {
             width: 100%;
             padding: 12px;
             border: 2px solid #e1e1e1;
@@ -69,7 +71,8 @@
             transition: border-color 0.3s;
         }
 
-        input[type="text"]:focus, input[type="password"]:focus {
+        input[type="text"]:focus,
+        input[type="password"]:focus {
             outline: none;
             border-color: #667eea;
         }
@@ -123,37 +126,38 @@
         }
     </style>
 </head>
+
 <body>
     <div class="auth-container">
         <div class="auth-header">
             <h1>Quiz App</h1>
             <p>Test your knowledge in OS, DBMS, CN & System Design</p>
         </div>
-        
+
         <div class="auth-content">
             {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if 'successful' in message %}
-                            <div class="alert alert-success">{{ message }}</div>
-                        {% else %}
-                            <div class="alert">{{ message }}</div>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
+            {% if messages %}
+            {% for message in messages %}
+            {% if 'successful' in message %}
+            <div class="alert alert-success">{{ message }}</div>
+            {% else %}
+            <div class="alert">{{ message }}</div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
             {% endwith %}
 
             <form method="POST" action="/login">
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required>
+                    <label for="email">Email Address</label>
+                    <input type="text" id="email" name="email" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" required>
                 </div>
-                
+
                 <button type="submit">Login</button>
             </form>
 
@@ -163,4 +167,5 @@
         </div>
     </div>
 </body>
+
 </html>
